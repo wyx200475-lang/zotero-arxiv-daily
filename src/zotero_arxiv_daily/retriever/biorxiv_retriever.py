@@ -23,9 +23,14 @@ class BiorxivRetriever(BaseRetriever):
         for i in range(retry_num):
             try:
                 response = requests.get(api_url)
-                logger.warning(f"BioRxiv status: {response.status_code}")
-                logger.warning(f"BioRxiv response: {response.text[:500]}")
+                print("========== BIO DEBUG ==========")
+                print("STATUS:", response.status_code)
+                print("TEXT LENGTH:", len(response.text))
+                print("TEXT:", repr(response.text[:500]))
+                print("================================")
                 response.raise_for_status()
+                if not response.text.strip():
+                    raise ValueError("BioRxiv returned empty response")
                 break
             except Exception as e:
                 if i == retry_num - 1:
