@@ -23,6 +23,8 @@ class BiorxivRetriever(BaseRetriever):
         for i in range(retry_num):
             try:
                 response = requests.get(api_url)
+        print("BioRxiv status:", response.status_code)
+        print("BioRxiv response:", response.text[:500]) 
                 response.raise_for_status()
                 break
             except Exception as e:
